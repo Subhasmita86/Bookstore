@@ -1,0 +1,395 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Book Heaven</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #d9d9d9;
+    }
+
+    header {
+        background-color: #2f2f2f;
+        color: white;
+        padding: 25px;
+        text-align: center;
+    }
+
+    section {
+        padding: 30px;
+        width: 90%;
+        margin: auto;
+    }
+
+    h2 {
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    /* FRONT PAGE BOOKS */
+    .featured-books {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: space-between;
+    }
+
+    .featured-card {
+        background: white;
+        width: 30%;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    }
+
+    .featured-card img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+    }
+
+    .featured-card h3 {
+        margin: 10px 0 5px;
+    }
+
+    /* CATEGORY BUTTONS */
+    .categories {
+        text-align: center;
+        margin: 40px 0;
+    }
+
+    .categories button {
+        margin: 10px;
+        padding: 12px 20px;
+        border: none;
+        background-color: #444;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .categories button:hover {
+        background-color: #111;
+    }
+
+    /* BOOK LIST */
+    .book-section {
+        display: none;
+    }
+
+    .book-row {
+        display: flex;
+        background: white;
+        margin-bottom: 20px;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    }
+
+    .book-row img {
+        width: 150px;
+        height: 200px;
+        object-fit: cover;
+        margin-right: 20px;
+    }
+
+    .book-info h3 {
+        margin: 0;
+    }
+
+    .price {
+        font-weight: bold;
+        margin-top: 8px;
+    }
+
+    footer {
+        background-color: #2f2f2f;
+        color: white;
+        text-align: center;
+        padding: 15px;
+    }
+    
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>📚 Book Heaven</h1>
+    <p>A paradise for book lovers</p>
+</header>
+
+<!-- FRONT PAGE -->
+<section>
+    <h2>Featured Books</h2>
+    <div class="featured-books">
+
+        <div class="featured-card">
+            <img src="atomic.jpg">
+            <h3>Atomic Habits</h3>
+            <p>Build good habits and break bad ones.</p>
+            <p class="price">₹399</p>
+        </div>
+
+        <div class="featured-card">
+            <img src="f2.jpg">
+            <h3>Thank you for leaving</h3>
+            <p>An inspiring journey of dreams and destiny.</p>
+            <p class="price">₹299</p>
+        </div>
+
+        <div class="featured-card">
+            <img src="f3.jpg">
+            <h3>Rich Dad Poor Dad</h3>
+            <p>Learn money, investing and financial freedom.</p>
+            <p class="price">₹350</p>
+        </div>
+
+        <div class="featured-card">
+            <img src="f4.jpg">
+            <h3>Think Like a Monk</h3>
+            <p>Wisdom for a calm and meaningful life.</p>
+            <p class="price">₹420</p>
+        </div>
+
+        <div class="featured-card">
+            <img src="f5.jpg">
+            <h3>Ikigai</h3>
+            <p>The Japanese secret to long and happy life.</p>
+            <p class="price">₹280</p>
+        </div>
+
+        <div class="featured-card">
+            <img src="f6.jpg">
+            <h3>Deep Work</h3>
+            <p>Rules for focused success in a distracted world.</p>
+            <p class="price">₹450</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- CATEGORIES -->
+<div class="categories">
+    <h2>Browse by Category</h2>
+    <button onclick="showCategory('horror')">Horror</button>
+    <button onclick="showCategory('love')">Love</button>
+    <button onclick="showCategory('suspense')">Suspense</button>
+    <button onclick="showCategory('comedy')">Comedy</button>
+</div>
+
+<!-- HORROR (15 BOOKS SAMPLE) -->
+<section id="horror" class="book-section">
+    <h2>Horror Books</h2>
+
+    <!-- Repeatable book row -->
+    <div class="book-row">
+        <img src="h1.jpg">
+        <div class="book-info">
+            <h3>Dracula</h3>
+            <p>A terrifying tale of a vampire and darkness where fears meets you directly .</p>
+            <p class="price">₹600</p>
+        </div>
+    </div>
+
+    <div class="book-row">
+        <img src="h2.jpg">
+        <div class="book-info">
+            <h3>The Shining</h3>
+            <p>A haunted hotel and psychological terror.</p>
+            <p class="price">₹880</p>
+           </div>
+    </div>
+
+    <div class="book-row"><img src="h3.jpg"><div class="book-info"><h3>IT</h3><p>Evil takes shape of fear itself.</p><p class="price">₹920</p></div></div>
+    <div class="book-row"><img src="h4.jpg"><div class="book-info"><h3>Pet Sematary</h3><p>Sometimes dead is better.</p><p class="price">₹860</p></div></div>
+    <div class="book-row"><img src="h5.jpg"><div class="book-info"><h3>The Exorcist</h3><p>A battle between faith and evil.</p><p class="price">₹1390</p></div></div>
+    <div class="book-row"><img src="h6.jpg"><div class="book-info"><h3>Bird Box</h3><p>Do not open your eyes.</p><p class="price">₹960</p></div></div>
+    <div class="book-row"><img src="h7.jpg"><div class="book-info"><h3>The Ring</h3><p>A cursed video tape.</p><p class="price">₹990</p></div></div>
+    <div class="book-row"><img src="h8.jpg"><div class="book-info"><h3>House of Leaves</h3><p>A house bigger inside than outside.</p><p class="price">₹950</p></div></div>
+    <div class="book-row"><img src="h9.jpg"><div class="book-info"><h3>Hell House</h3><p>The most haunted house.</p><p class="price">₹870</p></div></div>
+    <div class="book-row"><img src="h10.jpg"><div class="book-info"><h3>Ghost Story</h3><p>Secrets never stay buried.</p><p class="price">₹720</p></div></div>
+    <div class="book-row"><img src="h11.jpg"><div class="book-info"><h3>The Mist</h3><p>Unknown terror in the fog.</p><p class="price">₹990</p></div></div>
+    <div class="book-row"><img src="h12.jpg"><div class="book-info"><h3>Salem's Lot</h3><p>A town of vampires.</p><p class="price">₹950</p></div></div>
+    <div class="book-row"><img src="h13.jpg"><div class="book-info"><h3>The Haunting</h3><p>A cursed mansion.</p><p class="price">₹730</p></div></div>
+    <div class="book-row"><img src="h14.jpg"><div class="book-info"><h3>Mexican Gothic</h3><p>Dark secrets of a mansion.</p><p class="price">₹780</p></div></div>
+    <div class="book-row"><img src="h15.jpg"><div class="book-info"><h3>The Stand</h3><p>Good vs evil after apocalypse.</p><p class="price">₹980</p></div></div>
+</section>
+
+    <section id="love" class="book-section">
+    <h2>Love Books</h2>
+
+    <!-- Repeatable book row -->
+    <div class="book-row">
+        <img src="l1.jpg">
+        <div class="book-info">
+            <h3>ROMEO AND JULIET</h3>
+            <p>A story that makes you think what real love looks like </p>
+            <p class="price">₹600</p>
+            
+        </div>
+    </div>
+
+    <div class="book-row">
+        <img src="l5.jpg">
+        <div class="book-info">
+            <h3>I dont love you anymore</h3>
+            <p> still in pain, stop reacting</p>
+            <p class="price">₹880</p>
+        </div>
+    </div>
+
+    <div class="book-row">
+        <img src="l6.jpg">
+        <div class="book-info">
+            <h3>I cannot say goodbye to you</h3>
+            <p>Byeeee</p>
+            <p class="price">₹880</p>
+        </div>
+    </div>
+
+    <div class="book-row">
+        <img src="l2.jpg">
+        <div class="book-info">
+            <h3>It Ends with Us</h3>
+            <p>No matter what happend it always us</p>
+            <p class="price">₹880</p>
+        </div>
+    </div>
+
+    <div class="book-row">
+        <img src="l3.jpg">
+        <div class="book-info">
+            <h3>Me before you </h3>
+            <p>The promise to with someone in every step</p>
+            <p class="price">₹880</p>
+        </div>
+    </div>
+
+</section>
+
+ <section id="suspense" class="book-section">
+    <h2>suspense Books</h2>
+    <div class="book-row">
+        <img src="s1.jpg">
+        <div class="book-info">
+            <h3>THE SILENT PATIENT</h3>
+            <p>A story that makes you think An creats fear</p>
+            <p class="price">₹800</p>
+            
+        </div>
+    </div>
+
+    <div class="book-row">
+        <img src="s2.jpg">
+        <div class="book-info">
+            <h3>THE HOUSEMAID</h3>
+            <p>Trust becomes dangerous when nothing is what it apperes to be. </p>
+            <p class="price">₹600</p>
+            
+        </div>
+    </div>
+
+    <div class="book-row">
+        <img src="s3.jpg">
+        <div class="book-info">
+            <h3>THE GIRL WITH NO NAME</h3>
+            <p>No-past, no identity only questionsss...???</p>
+            <p class="price">₹980</p>
+            
+        </div>
+    </div>
+
+        <div class="book-row">
+        <img src="s4.jpg">
+        <div class="book-info">
+            <h3>HER NAME WAS ROSE</h3>
+            <p>The more you learn about her the less safe and truth feels</p>
+            <p class="price">₹800</p>
+            
+        </div>
+    </div>
+
+    <div class="book-row">
+        <img src="s5.jpg">
+        <div class="book-info">
+            <h3>MYSTERY</h3>
+            <p>Every shadow hides a question, and every anwser craetes new fear. </p>
+            <p class="price">₹600</p>
+            
+        </div>
+    </div>
+</section>
+        <section id="comedy" class="book-section">
+    <h2>COMEDY BOOKS</h2>
+
+    <div class="book-row">
+        <img src="c1.jpg">
+        <div class="book-info">
+            <h3>ASKING FOR A FRIEND</h3>
+            <p>A hilarious story of misunderstanding</p>
+            <p class="price">₹400</p>
+            
+        </div>
+    </div>
+
+    <div class="book-row">
+        <img src="c2.jpg">
+        <div class="book-info">
+            <h3>HYPERBOLE AND A HALF </h3>
+            <p>Really Good, Actually is a warm, witty comedy that finds big laughs in small, awkward moments and reminds us that life’s messiness can be genuinely funny.”</p>
+            <P class="price">₹900</p>
+            
+        </div>
+    </div>
+
+    <div class="book-row">
+        <img src="c3.jpg"> 
+        <div class="book-info">
+            <h3>REALLY GOOD ACTUALLY </h3>
+            <p>“Hyperbole and a Half turns everyday chaos into laugh-out-loud stories, where simple moments become hilariously exaggerated and painfully relatable.”</p>
+            <P class="price">₹870</p>
+            
+        </div>
+    </div>
+
+    
+
+<div class="book-row">
+        <img src="c4.jpg">
+        <div class="book-info">
+            <h3>THE COMEDY OF ERRORS </h3>
+            <p>The Comedy of Errors is a fast-paced comedy full of mistaken identities and hilarious confusion, where one error leads to another laugh.” </p>
+            <P class="price">₹800</p>
+            
+        </div>
+    </div>
+
+    
+
+
+
+
+
+</section>
+
+<footer>
+    <p>© 2026 Book Heaven | All Rights Reserved</p>
+</footer>
+
+<script>
+function showCategory(category) {
+    let sections = document.querySelectorAll('.book-section');
+    sections.forEach(sec => sec.style.display = 'none');
+    document.getElementById(category).style.display = 'block';
+    window.scrollTo(0, document.getElementById(category).offsetTop);
+}
+</script>
+
+</body>
+</html>

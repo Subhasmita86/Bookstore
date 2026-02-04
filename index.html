@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Heaven - Online Bookstore</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        /* HEADER AND NAVIGATION */
+        header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 90%;
+            margin: 0 auto;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #FF9900;
+        }
+
+        .login-btn {
+            background-color: #FF9900;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background-color: #FF8800;
+        }
+
+        /* LOGIN MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 40px;
+            border-radius: 8px;
+            width: 400px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        /* BOOK DETAIL MODAL */
+        .book-detail-modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            overflow-y: auto;
+        }
+
+        .book-detail-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 40px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 700px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .book-detail-close {
+            color: #aaa;
+            float: right;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .book-detail-close:hover {
+            color: #000;
+        }
+
+        .book-detail-container {
+            display: flex;
+            gap: 30px;
+            clear: both;
+        }
+
+        .book-detail-img {
+            flex-shrink: 0;
+        }
+
+        .book-detail-img img {
+            width: 250px;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .book-detail-info {
+            flex: 1;
+        }
+
+        .book-detail-info h2 {
+            margin: 0 0 15px 0;
+            color: #1a1a2e;
+            font-size: 28px;
+        }
+
+        .book-detail-description {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .book-detail-price {
+            font-size: 26px;
+            font-weight: bold;
+            color: #FF9900;
+            margin-bottom: 25px;
+        }
+
+        .book-detail-rating {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .book-detail-btn {
+            background: linear-gradient(135deg, #FF9900 0%, #FF8800 100%);
+            color: white;
+            border: none;
+            padding: 14px 35px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            width: 100%;
+        }
+
+        .book-detail-btn:hover {
+            background: linear-gradient(135deg, #FF8800 0%, #FF7700 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(255, 152, 0, 0.3);
+        }
+
+        @media (max-width: 600px) {
+            .book-detail-container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .book-detail-img img {
+                width: 200px;
+                height: 280px;
+            }
+
+            .book-detail-content {
+                width: 95%;
+                padding: 20px;
+            }
+        }
+
+        .login-form h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #1a1a2e;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #FF9900;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #FF9900;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #FF8800;
+        }
+
+        section {
+            padding: 50px;
+            width: 90%;
+            margin: auto;
+        }
+
+        h2 {
+            color: #1a1a2e;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+
+        /* FRONT PAGE BOOKS */
+        .featured-books {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+        }
+
+        .featured-card {
+            background: white;
+            width: 30%;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .featured-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .featured-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .featured-card h3 {
+            margin: 15px 0 8px;
+            color: #1a1a2e;
+            font-size: 18px;
+        }
+
+        .featured-card p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* CATEGORY BUTTONS */
+        .categories {
+            text-align: center;
+            margin: 60px 0;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .categories h2 {
+            margin-bottom: 30px;
+        }
+
+        .categories button {
+            margin: 12px;
+            padding: 14px 28px;
+            border: 2px solid #FF9900;
+            background-color: white;
+            color: #FF9900;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .categories button:hover {
+            background-color: #FF9900;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* BOOK LIST */
+        .book-section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .book-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .book-row {
+            display: flex;
+            background: white;
+            margin-bottom: 25px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .book-row:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .book-row img {
+            width: 150px;
+            height: 210px;
+            object-fit: cover;
+            margin-right: 25px;
+            border-radius: 5px;
+        }
+
+        .book-info {
+            flex: 1;
+        }
+
+        .book-info h3 {
+            margin: 0 0 10px 0;
+            color: #1a1a2e;
+            font-size: 20px;
+        }
+
+        .book-info p {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .price {
+            font-weight: bold;
+            color: #FF9900;
+            font-size: 18px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+
+        .shop-btn {
+            background: linear-gradient(135deg, #FF9900 0%, #FF8800 100%);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .shop-btn:hover {
+            background: linear-gradient(135deg, #FF8800 0%, #FF7700 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(255, 152, 0, 0.3);
+        }
+
+        .shop-btn:active {
+            transform: translateY(0);
+        }
+
+        .featured-card .shop-btn {
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 50px 0 20px;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            width: 90%;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h4 {
+            font-size: 16px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #FF9900;
+            padding-bottom: 10px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 14px;
+        }
+
+        .footer-section ul li a:hover {
+            color: #FF9900;
+        }
+
+        .footer-contact p {
+            color: #ccc;
+            font-size: 14px;
+            margin-bottom: 10px;
+            line-height: 1.8;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-icons a {
+            width: 40px;
+            height: 40px;
+            background-color: #FF9900;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            font-weight: bold;
+        }
+
+        .social-icons a:hover {
+            background-color: #FF8800;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid #444;
+            padding-top: 25px;
+            color: #999;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .featured-card {
+                width: 48%;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            .book-row {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .book-row img {
+                margin-right: 0;
+                margin-bottom: 20px;
+                width: 120px;
+                height: 170px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-content">
+            <div class="logo">📚 Book Heaven</div>
+            <nav>
+                <a href="#home">Home</a>
+                <a href="#featured">Featured Books</a>
+                <a href="#categories">Categories</a>
+                <a href="#contact">Contact</a>
+                <button class="login-btn" onclick="openLoginModal()">Login</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- LOGIN MODAL -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLoginModal()">&times;</span>
+            <div class="login-form">
+                <h2>Sign In</h2>
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Sign In</button>
+                </form>
+                <p style="text-align: center; margin-top: 20px; color: #666;">
+                    Don't have an account? <a href="#"
+                        style="color: #FF9900; text-decoration: none; font-weight: bold;">Sign Up</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOOK DETAIL MODAL -->
+    <div id="bookDetailModal" class="book-detail-modal">
+        <div class="book-detail-content">
+            <span class="book-detail-close" onclick="closeBookDetail()">&times;</span>
+            <div class="book-detail-container">
+                <div class="book-detail-img">
+                    <img id="detailBookImg" src="" alt="Book Cover">
+                </div>
+                <div class="book-detail-info">
+                    <h2 id="detailBookTitle"></h2>
+                    <p class="book-detail-description" id="detailBookDescription"></p>
+                    <div class="book-detail-price" id="detailBookPrice"></div>
+                    <p class="book-detail-rating">⭐ 4.5/5 (320 reviews)</p>
+                    <button class="book-detail-btn" onclick="addToCart()">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FRONT PAGE -->
+    <section id="featured">
+        <h2>✨ Featured Books</h2>
+        <div class="featured-books">
+
+            <div class="featured-card">
+                <img src="atomic.jpg">
+                <h3>Atomic Habits</h3>
+                <p>Build good habits and break bad ones.</p>
+                <p class="price">₹399</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+
+            <div class="featured-card">
+                <img src="f2.jpg">
+                <h3>Thank you for leaving</h3>
+                <p>An inspiring journey of dreams and destiny.</p>
+                <p class="price">₹299</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+
+            <div class="featured-card">
+                <img src="f3.jpg">
+                <h3>Rich Dad Poor Dad</h3>
+                <p>Learn money, investing and financial freedom.</p>
+                <p class="price">₹350</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+
+            <div class="featured-card">
+                <img src="f4.jpg">
+                <h3>Think Like a Monk</h3>
+                <p>Wisdom for a calm and meaningful life.</p>
+                <p class="price">₹420</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+
+            <div class="featured-card">
+                <img src="f5.jpg">
+                <h3>Ikigai</h3>
+                <p>The Japanese secret to long and happy life.</p>
+                <p class="price">₹280</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+
+            <div class="featured-card">
+                <img src="f6.jpg">
+                <h3>Deep Work</h3>
+                <p>Rules for focused success in a distracted world.</p>
+                <p class="price">₹450</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CATEGORIES -->
+    <div class="categories" id="categories">
+        <h2>📖 Browse by Category</h2>
+        <button onclick="showCategory('horror')">Horror</button>
+        <button onclick="showCategory('love')">Romance</button>
+        <button onclick="showCategory('suspense')">Suspense</button>
+        <button onclick="showCategory('comedy')">Comedy</button>
+    </div>
+
+    <!-- HORROR (15 BOOKS SAMPLE) -->
+    <section id="horror" class="book-section">
+        <h2>Horror Books</h2>
+
+        <!-- Repeatable book row -->
+        <div class="book-row">
+            <img src="h1.jpg">
+            <div class="book-info">
+                <h3>Dracula</h3>
+                <p>A terrifying tale of a vampire and darkness where fears meets you directly .</p>
+                <p class="price">₹600</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+        </div>
+
+        <div class="book-row">
+            <img src="h2.jpg">
+            <div class="book-info">
+                <h3>The Shining</h3>
+                <p>A haunted hotel and psychological terror.</p>
+                <p class="price">₹880</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+        </div>
+
+        <div class="book-row"><img src="h3.jpg">
+            <div class="book-info">
+                <h3>IT</h3>
+                <p>Evil takes shape of fear itself.</p>
+                <p class="price">₹920</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+        </div>
+        <div class="book-row"><img src="h5.jpg">
+            <div class="book-info">
+                <h3>The Exorcist</h3>
+                <p>A battle between faith and evil.</p>
+                <p class="price">₹1390</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+        </div>
+        <div class="book-row"><img src="h6.jpg">
+            <div class="book-info">
+                <h3>Bird Box</h3>
+                <p>Do not open your eyes.</p>
+                <p class="price">₹960</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+        </div>
+        <div class="book-row"><img src="h7.jpg">
+            <div class="book-info">
+                <h3>The Ring</h3>
+                <p>A cursed video tape.</p>
+                <p class="price">₹990</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+        </div>
+        <div class="book-row"><img src="h8.jpg">
+            <div class="book-info">
+                <h3>House of Leaves</h3>
+                <p>A house bigger inside than outside.</p>
+                <p class="price">₹950</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+        </div>
+        <div class="book-row"><img src="h9.jpg">
+            <div class="book-info">
+                <h3>Hell House</h3>
+                <p>The most haunted house.</p>
+                <p class="price">₹870</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+        </div>
+        <div class="book-row"><img src="h10.jpg">
+            <div class="book-info">
+                <h3>Ghost Story</h3>
+                <p>Secrets never stay buried.</p>
+                <p class="price">₹720</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+        </div>
+        <div class="book-row"><img src="h11.jpg">
+            <div class="book-info">
+                <h3>The Mist</h3>
+                <p>Unknown terror in the fog.</p>
+                <p class="price">₹990</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+        </div>
+        <div class="book-row"><img src="h12.jpg">
+            <div class="book-info">
+                <h3>Salem's Lot</h3>
+                <p>A town of vampires.</p>
+                <p class="price">₹950</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+        </div>
+        <div class="book-row"><img src="h13.jpg">
+            <div class="book-info">
+                <h3>The Haunting</h3>
+                <p>A cursed mansion.</p>
+                <p class="price">₹730</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+        </div>
+        <div class="book-row"><img src="h14.jpg">
+            <div class="book-info">
+                <h3>Mexican Gothic</h3>
+                <p>Dark secrets of a mansion.</p>
+                <p class="price">₹780</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+        </div>
+        <div class="book-row"><img src="h15.jpg">
+            <div class="book-info">
+                <h3>The Stand</h3>
+                <p>Good vs evil after apocalypse.</p>
+                <p class="price">₹980</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="love" class="book-section">
+        <h2>Love Books</h2>
+
+        <!-- Repeatable book row -->
+        <div class="book-row">
+            <img src="l1.jpg">
+            <div class="book-info">
+                <h3>ROMEO AND JULIET</h3>
+                <p>A story that makes you think what real love looks like </p>
+                <p class="price">₹600</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+        </div>
+
+        <div class="book-row">
+            <img src="l5.jpg">
+            <div class="book-info">
+                <h3>I dont love you anymore</h3>
+                <p> still in pain, stop reacting</p>
+                <p class="price">₹880</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+        </div>
+
+        <div class="book-row">
+            <img src="l6.jpg">
+            <div class="book-info">
+                <h3>I cannot say goodbye to you</h3>
+                <p>Byeeee</p>
+                <p class="price">₹880</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+        </div>
+
+        <div class="book-row">
+            <img src="l2.jpg">
+            <div class="book-info">
+                <h3>It Ends with Us</h3>
+                <p>No matter what happend it always us</p>
+                <p class="price">₹880</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+        </div>
+
+        <div class="book-row">
+            <img src="l3.jpg">
+            <div class="book-info">
+                <h3>Me before you </h3>
+                <p>The promise to with someone in every step</p>
+                <p class="price">₹880</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+        </div>
+
+    </section>
+
+    <section id="suspense" class="book-section">
+        <h2>suspense Books</h2>
+        <div class="book-row">
+            <img src="s1.jpg">
+            <div class="book-info">
+                <h3>THE SILENT PATIENT</h3>
+                <p>A story that makes you think An creats fear</p>
+                <p class="price">₹800</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+        </div>
+
+        <div class="book-row">
+            <img src="s2.jpg">
+            <div class="book-info">
+                <h3>THE HOUSEMAID</h3>
+                <p>Trust becomes dangerous when nothing is what it apperes to be. </p>
+                <p class="price">₹600</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+        </div>
+
+        <div class="book-row">
+            <img src="s3.jpg">
+            <div class="book-info">
+                <h3>THE GIRL WITH NO NAME</h3>
+                <p>No-past, no identity only questionsss...???</p>
+                <p class="price">₹980</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+        </div>
+
+        <div class="book-row">
+            <img src="s4.jpg">
+            <div class="book-info">
+                <h3>HER NAME WAS ROSE</h3>
+                <p>The more you learn about her the less safe and truth feels</p>
+                <p class="price">₹800</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+        </div>
+
+        <div class="book-row">
+            <img src="s5.jpg">
+            <div class="book-info">
+                <h3>MYSTERY</h3>
+                <p>Every shadow hides a question, and every anwser craetes new fear. </p>
+                <p class="price">₹600</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+        </div>
+    </section>
+    <section id="comedy" class="book-section">
+        <h2>COMEDY BOOKS</h2>
+
+        <div class="book-row">
+            <img src="c1.jpg">
+            <div class="book-info">
+                <h3>ASKING FOR A FRIEND</h3>
+                <p>A hilarious story of misunderstanding</p>
+                <p class="price">₹400</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+        </div>
+
+        <div class="book-row">
+            <img src="c2.jpg">
+            <div class="book-info">
+                <h3>HYPERBOLE AND A HALF </h3>
+                <p>Really Good, Actually is a warm, witty comedy that finds big laughs in small, awkward moments and
+                    reminds us that life’s messiness can be genuinely funny.”</p>
+                <P class="price">₹900</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+        </div>
+
+        <div class="book-row">
+            <img src="c3.jpg">
+            <div class="book-info">
+                <h3>REALLY GOOD ACTUALLY </h3>
+                <p>“Hyperbole and a Half turns everyday chaos into laugh-out-loud stories, where simple moments become
+                    hilariously exaggerated and painfully relatable.”</p>
+                <P class="price">₹870</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+        </div>
+
+
+
+        <div class="book-row">
+            <img src="c4.jpg">
+            <div class="book-info">
+                <h3>THE COMEDY OF ERRORS </h3>
+                <p>The Comedy of Errors is a fast-paced comedy full of mistaken identities and hilarious confusion,
+                    where one error leads to another laugh.” </p>
+                <P class="price">₹800</p>
+                <button class="shop-btn">Shop Now</button>
+            </div>
+        </div>
+
+
+
+
+
+
+
+    </section>
+
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About Us</h4>
+                <p style="color: #ccc; font-size: 14px; line-height: 1.8;">
+                    Book Heaven is your ultimate destination for discovering and purchasing quality books across all
+                    genres. We're committed to bringing stories and knowledge to readers worldwide.
+                </p>
+            </div>
+
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#featured">Featured Books</a></li>
+                    <li><a href="#categories">Categories</a></li>
+                    <li><a href="#bestsellers">Bestsellers</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Customer Service</h4>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Returns & Exchanges</a></li>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section footer-contact">
+                <h4>Contact Info</h4>
+                <p>📞 +1 (800) 123-4567</p>
+                <p>📧 support@bookheaven.com</p>
+                <p>📍 123 Book Lane, Reading City, RC 12345</p>
+                <div class="social-icons">
+                    <a href="#" title="Facebook">f</a>
+                    <a href="#" title="Twitter">𝕏</a>
+                    <a href="#" title="Instagram">📷</a>
+                    <a href="#" title="LinkedIn">in</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Book Heaven | All Rights Reserved. | <a href="#"
+                    style="color: #FF9900; text-decoration: none;">Privacy Policy</a> | <a href="#"
+                    style="color: #FF9900; text-decoration: none;">Cookie Settings</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Book Detail Modal Functions
+        function openBookDetail(title, description, price, imageSrc) {
+            document.getElementById('detailBookTitle').textContent = title;
+            document.getElementById('detailBookDescription').textContent = description;
+            document.getElementById('detailBookPrice').textContent = price;
+            document.getElementById('detailBookImg').src = imageSrc;
+            document.getElementById('bookDetailModal').style.display = 'block';
+        }
+
+        function closeBookDetail() {
+            document.getElementById('bookDetailModal').style.display = 'none';
+        }
+
+        function addToCart() {
+            const title = document.getElementById('detailBookTitle').textContent;
+            alert(`"${title}" has been added to your cart!`);
+            closeBookDetail();
+        }
+
+        // Close book detail modal when clicking outside
+        window.onclick = function (event) {
+            const loginModal = document.getElementById('loginModal');
+            const bookDetailModal = document.getElementById('bookDetailModal');
+
+            if (event.target == loginModal) {
+                loginModal.style.display = 'none';
+            }
+            if (event.target == bookDetailModal) {
+                bookDetailModal.style.display = 'none';
+            }
+        }
+
+        // Login Modal Functions
+        function openLoginModal() {
+            document.getElementById('loginModal').style.display = 'block';
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            alert(`Welcome! Logged in as: ${email}`);
+            closeLoginModal();
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        // Category Navigation
+        function showCategory(category) {
+            let sections = document.querySelectorAll('.book-section');
+            sections.forEach(sec => {
+                sec.classList.remove('active');
+                sec.style.display = 'none';
+            });
+            const selectedSection = document.getElementById(category);
+            selectedSection.classList.add('active');
+            selectedSection.style.display = 'block';
+
+            // Scroll to the section
+            setTimeout(() => {
+                selectedSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+
+        // Add click handlers to featured books
+        document.addEventListener('DOMContentLoaded', function () {
+            // Featured Books Click Handlers
+            document.querySelectorAll('.featured-card').forEach(card => {
+                card.addEventListener('click', function () {
+                    const title = this.querySelector('h3').textContent;
+                    const description = this.querySelector('p').textContent;
+                    const price = this.querySelector('.price').textContent;
+                    const imageSrc = this.querySelector('img').src;
+                    openBookDetail(title, description, price, imageSrc);
+                });
+            });
+
+            // Book Row Click Handlers
+            document.querySelectorAll('.book-row').forEach(row => {
+                row.addEventListener('click', function () {
+                    const title = this.querySelector('h3').textContent;
+                    const description = this.querySelector('p').textContent;
+                    const price = this.querySelector('.price').textContent;
+                    const imageSrc = this.querySelector('img').src;
+                    openBookDetail(title, description, price, imageSrc);
+                });
+            });
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && !href.includes('signup') && !href.includes('facebook') && !href.includes('twitter') && !href.includes('instagram') && !href.includes('linkedin')) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
